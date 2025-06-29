@@ -56,6 +56,10 @@ Financial_Analytics_Dashboard/
    - Frontend: `http://localhost:5173`
    - Backend API: `http://localhost:5000`
 
+## 🌐 Live Demo
+
+Check out the live demo: [https://financial-analytics-dashboard-frontend.onrender.com](https://financial-analytics-dashboard-frontend.onrender.com)
+
 ## 📚 Documentation
 
 For detailed setup instructions, API documentation, and development guidelines:
