@@ -14,7 +14,10 @@ const app: Application = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 app.use(express.json());
 
 // Basic request logging middleware
@@ -48,4 +51,3 @@ const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 export default app; // For testing purposes
-
