@@ -52,7 +52,6 @@ const TransactionsTable: React.FC = () => {
 
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isRefetching, setIsRefetching] = useState(false);  // New state for tracking refreshes vs initial load
     const [error, setError] = useState<string | null>(null);
     const [totalTransactions, setTotalTransactions] = useState(0);
 
@@ -80,24 +79,22 @@ const TransactionsTable: React.FC = () => {
     const fetchAndSetTransactions = useCallback(async () => {
         // If we already have data, we're refetching rather than loading for the first time
         const hasExistingData = transactions.length > 0;
-        if (hasExistingData) {
-            setIsRefetching(true);
-        } else {
+        if (!hasExistingData) {
             setLoading(true);
         }
 
         try {
             const selectedCategories = Object.keys(filterCategories).filter(
-                (cat) => filterCategories[cat]
+                (cat) => filterCategories[cat as keyof typeof filterCategories]
             );
 
-            const params: never = {
+            const params = {
                 page: page + 1,
                 limit: rowsPerPage,
                 search: debouncedSearchTerm,
                 sortBy,
                 sortOrder,
-                category: selectedCategories.length === 0 ? "null" : selectedCategories,
+                category: selectedCategories.length === 0 ? ["null"] : selectedCategories,
                 startDate: startDate ? startDate.toISOString() : undefined,
                 endDate: endDate ? endDate.toISOString() : undefined
             };
@@ -111,7 +108,6 @@ const TransactionsTable: React.FC = () => {
             setError('Failed to fetch transactions.');
         } finally {
             setLoading(false);
-            setIsRefetching(false);
         }
     }, [page, rowsPerPage, debouncedSearchTerm, sortBy, sortOrder, filterCategories, startDate, endDate]);
 
@@ -303,30 +299,28 @@ const TransactionsTable: React.FC = () => {
                                 label="Start Date"
                                 value={tempStartDate}
                                 onChange={(date) => setTempStartDate(date)}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        margin="dense"
-                                    />
-                                )}
+                                slotProps={{
+                                    textField: {
+                                        fullWidth: true,
+                                        size: "small",
+                                        variant: "outlined",
+                                        margin: "dense"
+                                    }
+                                }}
                             />
                             <Typography sx={{ mx: 1 }}>–</Typography>
                             <DatePicker
                                 label="End Date"
                                 value={tempEndDate}
                                 onChange={(date) => setTempEndDate(date)}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        margin="dense"
-                                    />
-                                )}
+                                slotProps={{
+                                    textField: {
+                                        fullWidth: true,
+                                        size: "small",
+                                        variant: "outlined",
+                                        margin: "dense"
+                                    }
+                                }}
                             />
                         </Box>
 
@@ -376,6 +370,4 @@ const TransactionsTable: React.FC = () => {
 };
 
 export default TransactionsTable;
-
-
 

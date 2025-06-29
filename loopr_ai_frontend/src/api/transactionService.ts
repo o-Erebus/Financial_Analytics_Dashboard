@@ -7,7 +7,7 @@ interface TransactionParams {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
     search?: string;
-    category?: string;
+    category?: string | string[];
     status?: string;
     startDate?: string;
     endDate?: string;
@@ -30,3 +30,4 @@ export const exportTransactions = async (params: TransactionParams & { fields: s
     });
     return response.data;
 };
+

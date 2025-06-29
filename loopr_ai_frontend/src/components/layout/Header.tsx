@@ -18,9 +18,9 @@ import { useAuth } from '../../hooks/useAuth';
 
 const Header = () => {
     const { user, logout } = useAuth();
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-    const handleAvatarClick = (event) => {
+    const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -71,7 +71,7 @@ const Header = () => {
                     <NotificationsIcon />
                 </IconButton>
                 <IconButton onClick={handleAvatarClick} sx={{ p: 0 }}>
-                    <Avatar src={user.user_profile} alt={user.name || 'User'} />
+                    <Avatar src={user?.user_profile} alt={user?.username || 'User'} />
                 </IconButton>
 
                 <Popover

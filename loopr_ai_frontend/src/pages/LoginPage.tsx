@@ -83,7 +83,7 @@ const LoginPage: React.FC = () => {
             } else {
                 localStorage.removeItem('rememberedUser');
             }
-        } catch (err: never) {
+        } catch (err: any) {
             setError(err.response?.data?.message || 'Login failed. Please try again.');
         } finally {
             setIsSubmitting(false);
